@@ -72,7 +72,7 @@ app.get("/current/:location", cache, async function (req, res) {
 });
 
 app.get("/health", async function (req, res) {
-  res.status(200).send("Service is up and running !");
+  res.status(200).send("Service is up and running  !");
 });
 
 app.get("/env", async function (req, res) {
