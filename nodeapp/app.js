@@ -37,7 +37,7 @@ app.get("/current/:location", cache, async function(req, res) {
     const weather = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.data[0].lat}&lon=${coordinates.data[0].lon}&appid=${API_KEY}`    
     );    
-    
+    weather.data.source = "Weather API"
     redisClient.set(req.params.location, JSON.stringify(weather.data));
     return res.json(weather.data);
 
