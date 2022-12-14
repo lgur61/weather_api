@@ -13,7 +13,16 @@ resource "aws_ecs_task_definition" "web-app-task-definition" {
     environment = [{
       name  = "web_app_profiles_active"
       value = "${var.web_app_profile}"
-    }]
+      },
+      {
+        name  = "REDIS_HOSTNAME",
+        value = "${data.terraform_remote_state.platform.outputs.elasticache_hostname}"
+      },
+      {
+        name  = "REDIS_PORT",
+        value = "${data.terraform_remote_state.platform.outputs.elasticache_port}"
+      }
+    ]
     portMappings = [{
       protocol      = "tcp"
       containerPort = var.docker_container_port
