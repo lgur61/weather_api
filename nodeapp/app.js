@@ -15,7 +15,7 @@ const cache = (req, res, next) => {
   const { location } = req.params;
 
   redisClient.get(location, (error, result) => {
-    if (error) throw error;
+    if (error) next(error);
     if (result !== null) {
       let res = JSON.parse(result)
       //res.source = "Redis Cache";
@@ -26,7 +26,14 @@ const cache = (req, res, next) => {
   });
 };
 
-
+app.use((err,req,res,next)=> {
+     err.statusCode= err.statusCode || 500
+     err.status= err.status || 'error'
+     res.status(err.statusCode).json({
+          status:err.status,
+          message:err.message
+     })
+})
 app.get("/current/:location", cache, async function(req, res) {
     const API_KEY = "aa1b2c2361b74ac8c919ab868e0b7f1b"
   try {   
@@ -49,10 +56,8 @@ app.get("/current/:location", cache, async function(req, res) {
   }
 });
 
-app.get("/health", async function(req, res) {
-   
-    res.status(200).send("Service is up and running !");
-  
+app.get("/health", async function(req, res) {   
+    res.status(200).send("Service is up and running !");  
 });
 
 
