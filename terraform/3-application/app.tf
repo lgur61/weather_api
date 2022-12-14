@@ -96,9 +96,9 @@ resource "aws_alb_target_group" "ecs_app_target_group" {
   target_type = "ip"
 
   health_check {
-    path                = "/actuator/health"
+    path                = "/health"
     protocol            = "HTTP"
-    matcher             = "200"
+    matcher             = "200-399"
     interval            = "60"
     timeout             = "30"
     unhealthy_threshold = "3"
