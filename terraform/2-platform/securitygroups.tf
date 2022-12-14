@@ -16,8 +16,8 @@ resource "aws_security_group" "ecs_security_group" {
     to_port     = 6379
     cidr_blocks = [data.terraform_remote_state.infrastructure.outputs.vpc_cidr_block]
     description = "Redis port"
-
   }
+
   ingress {
     from_port   = 22
     protocol    = "TCP"

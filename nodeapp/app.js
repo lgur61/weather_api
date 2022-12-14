@@ -17,7 +17,7 @@ const cache = (req, res, next) => {
   redisClient.get(location, (error, result) => {
     if (error) throw error;
     if (result !== null) {
-
+      result.source = "Redis Cache"
       return res.json(JSON.parse(result));
     } else {
       return next();
