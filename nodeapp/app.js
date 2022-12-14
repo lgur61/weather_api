@@ -75,4 +75,11 @@ app.get("/health", async function (req, res) {
   res.status(200).send("Service is up and running !");
 });
 
+app.get("/env", async function (req, res) {
+  const host = process.env.REDIS_HOSTNAME;
+  const port = process.env.REDIS_PORT;
+
+  res.status(200).json({ host: host, port: port });
+});
+
 app.listen(8080, () => console.log(`Running on 8080`));
