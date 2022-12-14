@@ -4,7 +4,7 @@ const redis = require("redis");
 
 const redisClient = redis.createClient({
   host: 'node-app-redis.atppn3.ng.0001.use1.cache.amazonaws.com',
-  port: 6379, // default port
+  port: 6379, // default port 
 });
 
 const app = express()
