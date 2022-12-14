@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "web-app-task-definition" {
       },
       {
         name  = "REDIS_PORT",
-        value = data.terraform_remote_state.platform.outputs.elasticache_port
+        value = "${tostring(data.terraform_remote_state.platform.outputs.elasticache_port)}"
       }
     ]
     portMappings = [{
