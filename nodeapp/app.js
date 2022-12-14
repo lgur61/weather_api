@@ -19,7 +19,7 @@ const cache = (req, res, next) => {
     if (result !== null) {
       let res = JSON.parse(result)
       res.source = "Redis Cache";
-      return res.json(JSON.stringify(res));
+      return res.json(res);
     } else {
       return next();
     }
