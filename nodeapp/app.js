@@ -4,8 +4,8 @@ const redis = require("redis");
 
 const redisClient = redis.createClient({
   socket: {
-    host: "production-ecs-cluster-redis.atppn3.0001.use1.cache.amazonaws.com",
-    port: 6379,
+    host: process.env.REDIS_HOSTNAME,
+    port: parseInt(process.env.REDIS_PORT),
   },
 });
 
