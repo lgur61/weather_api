@@ -47,6 +47,13 @@ app.get("/current/:location", cache, async function(req, res) {
   }
 });
 
+app.get("/health", async function(req, res) {
+   
+    res.status(200).send("Service is up and running !");
+  
+});
+
+
 
 
 app.listen(8080, () => console.log(`Running on 8080`))
