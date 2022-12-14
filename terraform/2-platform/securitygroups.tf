@@ -11,14 +11,6 @@ resource "aws_security_group" "ecs_security_group" {
   }
 
   ingress {
-    from_port   = 6379
-    protocol    = "TCP"
-    to_port     = 6379
-    cidr_blocks = [data.terraform_remote_state.infrastructure.outputs.vpc_cidr_block]
-    description = "Redis port"
-  }
-
-  ingress {
     from_port   = 22
     protocol    = "TCP"
     to_port     = 22
@@ -42,13 +34,6 @@ resource "aws_security_group" "ecs_alb_security_group" {
   description = "Security group for ALB to traffic for ECS cluster"
   vpc_id      = data.terraform_remote_state.infrastructure.outputs.vpc_id
 
-  # ingress {
-  #   from_port   = 443
-  #   protocol    = "TCP"
-  #   to_port     = 443
-  #   cidr_blocks = [var.internet_cidr_block]
-  # }
-  # 
   ingress {
     from_port   = 80
     protocol    = "TCP"
@@ -61,5 +46,31 @@ resource "aws_security_group" "ecs_alb_security_group" {
     protocol    = "-1"
     to_port     = 0
     cidr_blocks = [var.internet_cidr_block]
+  }
+}
+
+resource "aws_security_group" "redis_security_group" {
+  name        = "Redis Cluster-SG"
+  description = "Security group for redis cluster to communicate ecs"
+  vpc_id      = data.terraform_remote_state.infrastructure.outputs.vpc_id
+
+ 
+  ingress {
+    from_port   = 6379
+    protocol    = "TCP"
+    to_port     = 6379
+    cidr_blocks = [data.terraform_remote_state.infrastructure.outputs.vpc_cidr_block]
+    description = "Redis port"
+  }
+
+  egress {
+    from_port   = 0
+    protocol    = "-1"
+    to_port     = 0
+    cidr_blocks = [var.internet_cidr_block]
+  }
+
+  tags = {
+    Name = "Redis Cluster-SG"
   }
 }

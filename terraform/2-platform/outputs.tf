@@ -34,12 +34,22 @@ output "ecs_domain_name" {
   value = var.ecs_domain_name
 }
 
-
-
 output "ecs_public_subnets" {
   value = data.terraform_remote_state.infrastructure.outputs.public_subnets
 }
 
 output "ecs_private_subnets" {
   value = data.terraform_remote_state.infrastructure.outputs.private_subnets
+}
+
+output "elasticache_hostname" {
+  value = aws_elasticache_cluster.redis.cache_nodes.0.address
+}
+
+output "elasticache_port" {
+  value = aws_elasticache_cluster.redis.cache_nodes.0.port
+}
+
+output "elasticache_endpoint" {
+  value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}:${aws_elasticache_cluster.redis.cache_nodes[0].port}"
 }

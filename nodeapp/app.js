@@ -3,7 +3,7 @@ const axios = require("axios")
 const redis = require("redis");
 
 const redisClient = redis.createClient({
-  host: 'node-app-redis.atppn3.ng.0001.use1.cache.amazonaws.com',
+  host: 'production-ecs-cluster-redis.atppn3.0001.use1.cache.amazonaws.com',
   port: 6379, // default port 
 });
 
@@ -18,7 +18,7 @@ const cache = (req, res, next) => {
     if (error) throw error;
     if (result !== null) {
       let res = JSON.parse(result)
-      res.source = "Redis Cache";
+      //res.source = "Redis Cache";
       return res.json(res);
     } else {
       return next();
