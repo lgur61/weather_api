@@ -1,10 +1,17 @@
 const express = require("express")
 const axios = require("axios")
 const redis = require("redis");
-
+/*
 const redisClient = redis.createClient({
   host: 'production-ecs-cluster-redis.atppn3.0001.use1.cache.amazonaws.com',
   port: 6379, // default port 
+});
+*/
+const redisClient = redis.createClient({
+    socket: {
+        host: 'production-ecs-cluster-redis.atppn3.0001.use1.cache.amazonaws.com',
+        port: 6379
+    }   
 });
 
 const app = express()
@@ -46,7 +53,7 @@ app.get("/current/:location", cache, async function(req, res) {
       `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.data[0].lat}&lon=${coordinates.data[0].lon}&appid=${API_KEY}`    
     );    
    
-    redisClient.set(req.params.location, JSON.stringify(weather.data));
+    redisClient.set(req.params.location, JSON.stringify(weather.data))
     weather.data.source = "Weather API"
     return res.json(weather.data);
 
